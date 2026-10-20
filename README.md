@@ -16,7 +16,7 @@
 ---
 
 ## 1. Vizyon ve Genel Bakış (Overview & Vision)
-**ÖSYM Takvim Bot**, ÖSYM'nin resmi web sitesindeki ([osym.gov.tr/Sayfa/SinavTakvimi](https://www.osym.gov.tr/Sayfa/SinavTakvimi)) güncel sınav takvimini her ayın 1'inde otonom olarak tarayan, belirlenen sınavların (**başvuru**, **geç başvuru** ve **sınav**) tarihlerini Apple Calendar (`Calendar.app`) üzerinden Google Takvim'deki **"ÖSYM Sınavları"** takvimine senkronize eden üretim standardında bir macOS arka plan servisidir.
+**ÖSYM Takvim Bot**, ÖSYM'nin resmi web sitesindeki ([osym.gov.tr/Sayfa/SinavTakvimi](https://www.osym.gov.tr/Sayfa/SinavTakvimi)) güncel sınav takvimini her pazartesi 10:00'da otonom olarak tarayan, belirlenen sınavların (**başvuru**, **geç başvuru** ve **sınav**) tarihlerini Apple Calendar (`Calendar.app`) üzerinden Google Takvim'deki birincil **"All"** takvimine (umutocgdr@gmail.com) senkronize eden üretim standardında bir macOS arka plan servisidir.
 
 Ek harici Python kütüphanesi veya paket yüklemesi (`pip install`) gerektirmez; tamamen macOS yerel araçları (`curl`, `osascript`, `launchd`) ve Python standart kütüphanesi ile sıfır bağımlılık prensibinde çalışır.
 
@@ -131,7 +131,7 @@ python3 scripts/backup.py
 ## 9. Kurulum ve Çalıştırma Komutları (Installation & Testing)
 
 ### Hizmeti Kurma (macOS LaunchAgent)
-1. Google Takvim üzerinde **ÖSYM Sınavları** adlı bir takvim oluşturun.
+1. Hedef takvim `config.json` → `calendar_name` (`All`) + `calendar_description` (`umutocgdr@gmail.com`) ile seçilir; Mac Takvim'de iki "All" olduğu için açıklama şarttır.
 2. Servisi kurun ve ilk senkronu hemen çalıştırın:
 ```bash
 ./scripts/install.sh --run-now

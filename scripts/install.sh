@@ -15,7 +15,7 @@ sed -e "s|__PYTHON__|$PYTHON|g" -e "s|__PROJECT__|$PROJECT|g" -e "s|__LOG__|$LOG
 
 launchctl bootout "gui/$(id -u)/$LABEL" 2>/dev/null || true
 launchctl bootstrap "gui/$(id -u)" "$TARGET"
-echo "Installed $TARGET (runs on day 1 of every month at 10:00, log: $LOG)"
+echo "Installed $TARGET (runs every Monday at 10:00, log: $LOG)"
 
 if [[ "${1:-}" == "--run-now" ]]; then
     launchctl kickstart -k "gui/$(id -u)/$LABEL"

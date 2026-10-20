@@ -1,7 +1,7 @@
 # AGENTS.md — ÖSYM Takvim Bot
 
 ## 1. Project Overview & Architecture
-**ÖSYM Takvim Bot** is an autonomous macOS background bot developed by **11Hopem**. It scrapes the official ÖSYM exam calendar schedule ([osym.gov.tr/Sayfa/SinavTakvimi](https://www.osym.gov.tr/Sayfa/SinavTakvimi)) on a monthly schedule, parses application deadlines, late application windows, and exam dates for configured exams (ALES, KPSS Lisans, YÖKDİL, YDS), and synchronizes them directly into macOS Calendar and Google Calendar via native AppleScript/JXA integration.
+**ÖSYM Takvim Bot** is an autonomous macOS background bot developed by **11Hopem**. It scrapes the official ÖSYM exam calendar schedule ([osym.gov.tr/Sayfa/SinavTakvimi](https://www.osym.gov.tr/Sayfa/SinavTakvimi)) on a weekly schedule (every Monday 10:00), parses application deadlines, late application windows, and exam dates for configured exams (ALES, KPSS Lisans, YÖKDİL, YDS), and synchronizes them directly into macOS Calendar and Google Calendar via native AppleScript/JXA integration.
 
 ### Core Architecture
 - **Language / Runtime:** Python 3.9+ (Zero external pip dependencies, standard library only).

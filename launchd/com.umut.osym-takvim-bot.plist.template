@@ -14,7 +14,7 @@
     <string>__PROJECT__</string>
     <key>StartCalendarInterval</key>
     <dict>
-        <key>Day</key>
+        <key>Weekday</key>
         <integer>1</integer>
         <key>Hour</key>
         <integer>10</integer>
