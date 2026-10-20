@@ -1,0 +1,16 @@
+{
+  "calendar_name": "ÖSYM Sınavları",
+  "exam_duration_minutes": 180,
+  "exams": [
+    { "code": "ALES" },
+    { "code": "KPSS", "name_includes": ["Lisans"], "name_excludes": ["Ön Lisans"] },
+    { "code": "YÖKDİL" },
+    { "code": "YDS" }
+  ],
+  "labels": {
+    "application": "Başvuru",
+    "late_application": "Geç Başvuru",
+    "exam": "Sınav",
+    "source": "Kaynak"
+  }
+}
