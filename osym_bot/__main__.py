@@ -1,3 +1,7 @@
+# Created by 11Hopem
+# Copyright (c) 2026 11Hopem. All rights reserved.
+# Licensed under 11Hopem Proprietary License.
+
 import argparse
 import json
 import logging
@@ -10,6 +14,7 @@ from typing import Dict, List
 from .apple_calendar import AppleCalendar, CalendarError
 from .events import MARKER, CalendarEvent, ExamFilter, build_events, select_rows, upcoming
 from .scraper import CALENDAR_URL, ScrapeError, fetch_calendar_html, parse_calendar
+from .telemetry.logger import logger as telemetry_logger
 
 PROJECT_ROOT = Path(__file__).resolve().parent.parent
 DEFAULT_CONFIG = PROJECT_ROOT / "config.json"
@@ -31,6 +36,7 @@ def plan_events(page: str, config: dict, today: date) -> List[CalendarEvent]:
     filters = [ExamFilter.from_dict(raw) for raw in config["exams"]]
     rows = select_rows(parse_calendar(page), filters)
     log.info("Matched %d exam rows", len(rows))
+    telemetry_logger.info("Matched exam rows", {"count": len(rows)})
     events = build_events(rows, config["labels"], int(config.get("exam_duration_minutes", 180)))
     return upcoming(events, today)
 
@@ -49,6 +55,12 @@ def sync(calendar: AppleCalendar, events: List[CalendarEvent], source_label: str
         calendar.create(event, "%s: %s" % (source_label, event.url))
         stats["updated" if stale else "created"] += 1
         log.info("%s %s (%s -> %s)", "Updated" if stale else "Created", event.title, event.start, event.end)
+        telemetry_logger.info("Event synchronized", {
+            "action": "updated" if stale else "created",
+            "title": event.title,
+            "start": str(event.start),
+            "end": str(event.end)
+        })
     return stats
 
 
@@ -68,6 +80,7 @@ def main(argv=None) -> int:
         events = plan_events(page, config, args.today)
     except (ScrapeError, OSError) as error:
         log.error("Could not read OSYM calendar: %s", error)
+        telemetry_logger.error("Could not read OSYM calendar", {"error": str(error)})
         notify("OSYM calendar could not be read: %s" % error)
         return 2
 
@@ -76,15 +89,18 @@ def main(argv=None) -> int:
             kind = "all-day" if event.all_day else "timed"
             print("%s  %s -> %s  [%s]  %s" % (event.title, event.start, event.end, kind, event.url))
         log.info("Dry run: %d upcoming events", len(events))
+        telemetry_logger.info("Dry run completed", {"upcoming_events": len(events)})
         return 0
 
     try:
-        stats = sync(AppleCalendar(config["calendar_name"]), events, config["labels"]["source"])
+        stats = sync(AppleCalendar(config["calendar_name"], config.get("calendar_description", "")), events, config["labels"]["source"])
     except CalendarError as error:
         log.error("Calendar sync failed: %s", error)
+        telemetry_logger.error("Calendar sync failed", {"error": str(error)})
         notify("Calendar sync failed: %s" % error)
         return 3
     log.info("Done: %s", stats)
+    telemetry_logger.telemetry("Calendar sync completed", stats)
     changed = stats["created"] + stats["updated"]
     if changed:
         notify("%d exam events added or updated" % changed)

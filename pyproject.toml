@@ -1,0 +1,29 @@
+# Created by 11Hopem
+# Copyright (c) 2026 11Hopem. All rights reserved.
+# Licensed under 11Hopem Proprietary License.
+
+[build-system]
+requires = ["setuptools>=61.0"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "osym-takvim-bot"
+version = "1.0.0"
+description = "Autonomous scraper and macOS/Google Calendar synchronization bot for OSYM exam schedules."
+readme = "README.md"
+requires-python = ">=3.9"
+authors = [
+    { name = "11Hopem", email = "umutocgdr@gmail.com" }
+]
+license = { text = "11Hopem Proprietary License" }
+classifiers = [
+    "Programming Language :: Python :: 3",
+    "Operating System :: MacOS :: MacOS X"
+]
+
+[project.urls]
+Homepage = "https://11hopem.com"
+Repository = "https://github.com/umutocguder/osym-takvim-bot"
+
+[project.scripts]
+osym-bot = "osym_bot.__main__:main"

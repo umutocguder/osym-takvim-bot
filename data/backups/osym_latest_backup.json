@@ -1,0 +1,37 @@
+{
+  "appName": "osym-takvim-bot",
+  "timestamp": "2026-10-20T07:05:11.834137+00:00",
+  "author": "11Hopem",
+  "config": {
+    "calendar_name": "All",
+    "calendar_description": "umutocgdr@gmail.com",
+    "exam_duration_minutes": 180,
+    "exams": [
+      {
+        "code": "ALES"
+      },
+      {
+        "code": "KPSS",
+        "name_includes": [
+          "Lisans"
+        ],
+        "name_excludes": [
+          "Ön Lisans"
+        ]
+      },
+      {
+        "code": "YÖKDİL"
+      },
+      {
+        "code": "YDS"
+      }
+    ],
+    "labels": {
+      "application": "Başvuru",
+      "late_application": "Geç Başvuru",
+      "exam": "Sınav",
+      "source": "Kaynak"
+    }
+  },
+  "version": "1.0.0"
+}

@@ -1,4 +1,41 @@
+# Created by 11Hopem
+# Copyright (c) 2026 11Hopem. All rights reserved.
+# Licensed under 11Hopem Proprietary License.
+
 __pycache__/
-*.pyc
+*.py[cod]
+*$py.class
+*.so
+.Python
+env/
+build/
+develop-eggs/
+dist/
+downloads/
+eggs/
+.eggs/
+lib/
+lib64/
+parts/
+sdist/
+var/
+wheels/
+*.egg-info/
+.installed.cfg
+*.egg
+
+# Virtual environments
+.venv
+venv/
+ENV/
+
+# System and logs
 .DS_Store
 *.log
+logs/
+.env
+
+# Testing & caches
+.pytest_cache/
+.coverage
+htmlcov/

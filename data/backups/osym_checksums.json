@@ -1,0 +1,20 @@
+[
+  {
+    "timestamp": "2026-10-20T07:00:59.672320+00:00",
+    "sha256": "5641f3fed85a50281c44cdb1ecddeb0b1ad8e00b311014447b7bd772fc120c0e",
+    "size_bytes": 674,
+    "file": "osym_latest_backup.json"
+  },
+  {
+    "timestamp": "2026-10-20T07:01:25.014289+00:00",
+    "sha256": "00ebcdec4505a17227d9ccc00d28ad626e1c16f4281e4dbfa5b2d8136b1cbc51",
+    "size_bytes": 711,
+    "file": "osym_latest_backup.json"
+  },
+  {
+    "timestamp": "2026-10-20T07:05:11.834137+00:00",
+    "sha256": "5d64ae212d613a03ba6aa6190610128751fc05563cb40d3036acb3b8fd01c091",
+    "size_bytes": 711,
+    "file": "osym_latest_backup.json"
+  }
+]

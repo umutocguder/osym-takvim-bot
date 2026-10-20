@@ -1,5 +1,6 @@
 {
-  "calendar_name": "ÖSYM Sınavları",
+  "calendar_name": "All",
+  "calendar_description": "umutocgdr@gmail.com",
   "exam_duration_minutes": 180,
   "exams": [
     { "code": "ALES" },

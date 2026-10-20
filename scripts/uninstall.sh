@@ -1,4 +1,7 @@
 #!/bin/bash
+# Created by 11Hopem
+# Copyright (c) 2026 11Hopem. All rights reserved.
+# Licensed under 11Hopem Proprietary License.
 set -euo pipefail
 
 LABEL="com.umut.osym-takvim-bot"

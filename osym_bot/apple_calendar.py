@@ -1,3 +1,7 @@
+# Created by 11Hopem
+# Copyright (c) 2026 11Hopem. All rights reserved.
+# Licensed under 11Hopem Proprietary License.
+
 import subprocess
 from datetime import datetime
 from typing import Dict, List, Sequence
@@ -17,11 +21,18 @@ on makeDate(stamp)
     return dt
 end makeDate
 
-on findCalendar(calName)
+on findCalendar(calName, calDescription)
     tell application "Calendar"
-        set matches to every calendar whose name is calName
-        if (count of matches) is 0 then error "Calendar not found: " & calName number 1001
-        if (count of matches) > 1 then error "Calendar name is not unique: " & calName number 1002
+        set matches to {}
+        repeat with candidate in (every calendar whose name is calName)
+            set candidateDescription to ""
+            try
+                set candidateDescription to (description of candidate) as text
+            end try
+            if calDescription is "" or candidateDescription is calDescription then set end of matches to contents of candidate
+        end repeat
+        if (count of matches) is 0 then error "Calendar not found: " & calName & " " & calDescription number 1001
+        if (count of matches) > 1 then error "Calendar is ambiguous, set calendar_description: " & calName number 1002
         return item 1 of matches
     end tell
 end findCalendar
@@ -30,8 +41,9 @@ end findCalendar
 LIST_SCRIPT = COMMON + r'''
 on run argv
     set calName to item 1 of argv
-    set markerPrefix to item 2 of argv
-    set cal to my findCalendar(calName)
+    set calDescription to item 2 of argv
+    set markerPrefix to item 3 of argv
+    set cal to my findCalendar(calName, calDescription)
     set out to ""
     tell application "Calendar"
         repeat with ev in (every event of cal whose description contains markerPrefix)
@@ -45,15 +57,16 @@ end run
 CREATE_SCRIPT = COMMON + r'''
 on run argv
     set calName to item 1 of argv
-    set evTitle to item 2 of argv
-    set startStamp to item 3 of argv
-    set endStamp to item 4 of argv
-    set isAllDay to (item 5 of argv) is "1"
-    set evDescription to item 6 of argv
-    set evUrl to item 7 of argv
+    set calDescription to item 2 of argv
+    set evTitle to item 3 of argv
+    set startStamp to item 4 of argv
+    set endStamp to item 5 of argv
+    set isAllDay to (item 6 of argv) is "1"
+    set evDescription to item 7 of argv
+    set evUrl to item 8 of argv
     set alarmList to {}
-    if (count of argv) > 7 then set alarmList to items 8 thru -1 of argv
-    set cal to my findCalendar(calName)
+    if (count of argv) > 8 then set alarmList to items 9 thru -1 of argv
+    set cal to my findCalendar(calName, calDescription)
     tell application "Calendar"
         set ev to make new event at end of events of cal with properties {summary:evTitle, start date:my makeDate(startStamp), end date:my makeDate(endStamp), allday event:isAllDay, description:evDescription, url:evUrl}
         repeat with offsetMinutes in alarmList
@@ -67,8 +80,9 @@ end run
 DELETE_SCRIPT = COMMON + r'''
 on run argv
     set calName to item 1 of argv
-    set evUid to item 2 of argv
-    set cal to my findCalendar(calName)
+    set calDescription to item 2 of argv
+    set evUid to item 3 of argv
+    set cal to my findCalendar(calName, calDescription)
     tell application "Calendar"
         delete (every event of cal whose uid is evUid)
     end tell
@@ -98,11 +112,12 @@ def _run(script: str, args: Sequence[str]) -> str:
 
 
 class AppleCalendar:
-    def __init__(self, calendar_name: str):
+    def __init__(self, calendar_name: str, calendar_description: str = ""):
         self.calendar_name = calendar_name
+        self.calendar_description = calendar_description
 
     def existing_markers(self) -> Dict[str, List[str]]:
-        output = _run(LIST_SCRIPT, [self.calendar_name, MARKER + ":"])
+        output = _run(LIST_SCRIPT, [self.calendar_name, self.calendar_description, MARKER + ":"])
         found: Dict[str, List[str]] = {}
         for line in output.splitlines():
             uid, _, marker = line.partition("\t")
@@ -113,6 +128,7 @@ class AppleCalendar:
     def create(self, event: CalendarEvent, description: str) -> str:
         args = [
             self.calendar_name,
+            self.calendar_description,
             event.title,
             _stamp(event.start),
             _stamp(event.end),
@@ -124,4 +140,4 @@ class AppleCalendar:
         return _run(CREATE_SCRIPT, args).strip()
 
     def delete(self, uid: str) -> None:
-        _run(DELETE_SCRIPT, [self.calendar_name, uid])
+        _run(DELETE_SCRIPT, [self.calendar_name, self.calendar_description, uid])
