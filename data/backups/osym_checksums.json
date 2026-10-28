@@ -28,5 +28,11 @@
     "sha256": "56a410a36a17eccbcb589ccc54e459be5297378c1e1f68e853c89712134fa915",
     "size_bytes": 711,
     "file": "osym_latest_backup.json"
+  },
+  {
+    "timestamp": "2026-10-28T19:52:19.129998+00:00",
+    "sha256": "b1964b6e9b5ae5eaab18a00e473631ae9be8cf18da1e8ea01480ff694835b39f",
+    "size_bytes": 711,
+    "file": "osym_latest_backup.json"
   }
 ]
