@@ -51,7 +51,7 @@ class CalendarEvent:
     @property
     def fingerprint(self) -> str:
         raw = "|".join([self.title, self.start.isoformat(), self.end.isoformat(), str(self.all_day), self.url])
-        return hashlib.sha1(raw.encode("utf-8")).hexdigest()[:12]
+        return hashlib.sha256(raw.encode("utf-8")).hexdigest()[:12]
 
     @property
     def marker(self) -> str:
